@@ -1,10 +1,6 @@
 # QtFlashProgrammer
 
-A simple tool whitch can control device with SPI or IIC by serial port 
-
-
-
-to program or burn flash like W25QXX or 24CXX.
+A simple tool whitch can control device with SPI or IIC by serial port to program or burn flash like W25QXX or 24CXX.
 
 
 
@@ -63,3 +59,5 @@ Open QtFlashProgrammer.pro with QT creater(version 6.x above)
 [Simsys/qhexedit2: Binary Editor for Qt (github.com)](https://github.com/Simsys/qhexedit2)
 
 [nofeletru/UsbAsp-flash: Program allow you to program flash memory on the protocols spi, I2C, MicroWire. Supports CH341a, UsbAsp, AVRISP(LUFA), Arduino, FT232H. (github.com)](https://github.com/nofeletru/UsbAsp-flash)
+
+[qt/qtserialport: Qt Serial Port support (github.com)](https://github.com/qt/qtserialport)
