@@ -59,7 +59,10 @@ void JSToolCLass::serialWrite(const QVariant &v)
         qByteArray.append(v.toString().toLocal8Bit());
         break;
 
-    default:
+    default:                //2024/6/16：QT6.7版本下，JS脚本读数据后直接写（对应SPItest 7和9），数组为QVariant，经测试以下方案可解决
+        QList<QVariant> vList = v.toList();
+        for(int i = 0; i<vList.size(); i++)
+            qByteArray.append(vList.at(i).toChar().toLatin1());
         break;
     }
     mainWindow->serialWrite(qByteArray);
