@@ -1,7 +1,7 @@
 
 //注意：写入前需要擦除操作
 const add_start = 0;			//写入flash的起始地址
-var write_size = -1*1024*1024;	//写入大小（如果设置为<0的值如-1，将会修改为可写入的最大长度）
+var write_size = 8*1024;	//写入大小（如果设置为<0的值如-1，将会修改为可写入的最大长度）
 var pos = 0;					//编辑区域的起始地址
 const buffSize = 64;			//串口缓冲区大小（一定要为能整除页大小）
 const pageSize = 256;			//w25qxx页大小
@@ -15,7 +15,7 @@ if(pos + write_size > mainObject.getEditLen() || pageSize % buffSize != 0)
 
 mainObject.serialClean();
 //初始化SPI引脚的状态并设置SPI频率
-if (spi_cmd_init(16) != 0)
+if (spi_cmd_init(8) != 0)
 	throw new Error("spi_cmd_init FAIL");
 
 

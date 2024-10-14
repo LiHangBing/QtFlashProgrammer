@@ -1,5 +1,5 @@
 
-const _IC_SIZE = 16*1024*1024;	//芯片容量
+const _IC_SIZE = 4*1024*1024;	//芯片容量
 const SectorSize = 4096; 		//扇区大小
 const buffSize = 64;			//缓冲区大小
 
@@ -7,7 +7,7 @@ const buffSize = 64;			//缓冲区大小
 mainObject.serialClean();
 
 //初始化SPI引脚的状态并设置SPI频率
-if (spi_cmd_init(16) != 0)
+if (spi_cmd_init(8) != 0)
 {
 	mainObject.statusShow("spi_cmd_init FAIL");
 	throw new Error("spi_cmd_init FAIL");

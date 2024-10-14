@@ -3,7 +3,7 @@
 
 const SectorSize = 4096; 		//扇区大小
 const add_start = 0;			//擦除的起始地址（注意一定要为扇区的整数倍，否则禁止执行）
-const erase_size = 4*1024;	//擦除大小（注意一定要为扇区的整数倍，否则禁止执行）
+const erase_size = 8*1024;	//擦除大小（注意一定要为扇区的整数倍，否则禁止执行）
 
 const add_end = add_start + erase_size;
 
