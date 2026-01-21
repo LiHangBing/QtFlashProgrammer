@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->action_Connect, SIGNAL(triggered()), this, SLOT(openSerialPort()));             //连接串口
     connect(ui->action_Disconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));         //断开串口连接
     connect(ui->action_SerialConfig, SIGNAL(triggered()), this, SLOT(showSerialCfg()));         //串口设置
-    connect(m_serial, SIGNAL(errorOccurred(SerialPortError)), this, SLOT(handleError(SerialPortError)));//串口出错处理
+    connect(m_serial, SIGNAL(errorOccurred(QSerialPort::SerialPortError)), this, SLOT(handleError(QSerialPort::SerialPortError)));//串口出错处理
     connect(m_serial, &QSerialPort::bytesWritten, this, &MainWindow::handleBytesWritten);       //串口完成写入
     connect(ui->action_tool, SIGNAL(triggered()), toolDialog, SLOT(show()));                          //工具窗口
     connect(ui->action_About, SIGNAL(triggered()), this, SLOT(about()));        //...about
