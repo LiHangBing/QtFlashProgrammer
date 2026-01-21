@@ -2,7 +2,7 @@
 
 const buffSize = 64;			//缓冲区大小
 const add_start = 0;			//读取的起始地址
-const read_size = 4*1024*1024;	//读取大小
+const read_size = 8*1024;	//读取大小
 
 mainObject.serialClean();
 

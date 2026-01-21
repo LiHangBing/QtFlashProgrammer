@@ -2,12 +2,12 @@
 
 const buffSize = 64;			//缓冲区大小
 const add_start = 0;			//读取的起始地址
-const read_size = 2968719;	//读取大小
+const read_size = 16*1024;	//读取大小
 
 mainObject.serialClean();
 
 //初始化SPI引脚的状态并设置SPI频率
-if (spi_cmd_init(8) != 0)
+if (spi_cmd_init(16) != 0)
 {
 	mainObject.statusShow("spi_cmd_init FAIL");
 	throw new Error("spi_cmd_init FAIL");

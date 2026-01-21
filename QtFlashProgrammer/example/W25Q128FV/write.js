@@ -15,7 +15,7 @@ if(pos + write_size > mainObject.getEditLen() || pageSize % buffSize != 0)
 
 mainObject.serialClean();
 //初始化SPI引脚的状态并设置SPI频率
-if (spi_cmd_init(8) != 0)
+if (spi_cmd_init(16) != 0)
 	throw new Error("spi_cmd_init FAIL");
 
 
