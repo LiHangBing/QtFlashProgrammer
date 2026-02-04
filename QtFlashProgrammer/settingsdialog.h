@@ -36,6 +36,8 @@ public:
         QSerialPort::FlowControl flowControl;
         QString stringFlowControl;
         bool localEchoEnabled;
+        bool timeoutEnabled;
+        qint32 timeoutMs;
     };
 
     explicit SettingsDialog(QWidget *parent = nullptr);

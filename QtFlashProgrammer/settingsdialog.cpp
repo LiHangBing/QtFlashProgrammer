@@ -179,4 +179,6 @@ void SettingsDialog::updateSettings()
     m_currentSettings.stringFlowControl = m_ui->flowControlBox->currentText();
 
     m_currentSettings.localEchoEnabled = m_ui->localEchoCheckBox->isChecked();
+    m_currentSettings.timeoutEnabled = m_ui->timeoutCheckBox->isChecked();
+    m_currentSettings.timeoutMs = m_ui->timeoutSpinBox->value();
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>281</width>
-    <height>262</height>
+    <width>320</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -164,6 +164,26 @@
         </property>
         <property name="checked">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="timeoutCheckBox">
+        <property name="text">
+         <string>timeout enable (unit ms)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="timeoutSpinBox">
+        <property name="maximum">
+         <number>5000</number>
+        </property>
+        <property name="value">
+         <number>100</number>
         </property>
        </widget>
       </item>

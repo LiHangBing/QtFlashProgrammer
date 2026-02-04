@@ -287,6 +287,8 @@ void MainWindow::openSerialPort()
     m_serial->setParity(p.parity);
     m_serial->setStopBits(p.stopBits);
     m_serial->setFlowControl(p.flowControl);
+    timeoutEnabled = p.timeoutEnabled;
+    timeoutMs = p.timeoutMs;
     if (m_serial->open(QIODevice::ReadWrite)) {
         ui->action_Connect->setEnabled(false);
         ui->action_Disconnect->setEnabled(true);
@@ -351,7 +353,7 @@ void MainWindow::serialClean()                                 //串口清除缓
 
 void MainWindow::serialWrite(const QByteArray &data)            //串口写入（阻塞执行）
 {
-    while(m_bytesToWrite > 0)
+    while(m_bytesToWrite > 0)               //等待串口发送完前面的数据
         QCoreApplication::processEvents(QEventLoop::AllEvents);
     const qint64 written = m_serial->write(data);
     if (written == data.size()) {
@@ -364,11 +366,47 @@ void MainWindow::serialWrite(const QByteArray &data)            //串口写入�
     }
 }
 
-QByteArray MainWindow::serialRead(qint32 len)           //串口读取（阻塞执行）
+/*QByteArray MainWindow::serialRead(qint32 len)           //串口读取（阻塞执行）
 {
     while(m_serial->bytesAvailable() < len)
        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
     return m_serial->read(len);
+}*/
+
+QByteArray MainWindow::serialRead(qint32 len)           //串口读取（阻塞执行）（可设置超时）
+{
+    QByteArray result;
+    qint64 totalRead = 0;
+
+    if(timeoutEnabled)      //每次读都有超时等待
+    {
+        QElapsedTimer timer;
+        timer.start();
+        
+        while (totalRead < len) {
+            qint64 available = m_serial->bytesAvailable();
+            
+            if (available > 0) {
+                QByteArray chunk = m_serial->read(qMin(available, len - totalRead));
+                result.append(chunk);
+                totalRead += chunk.size();
+                timer.restart();  // 收到数据，重置计时器
+            } else {
+                if (timer.elapsed() >= timeoutMs) {
+                    QMessageBox::critical(this, tr("Error"), tr("Serial read timeout, available:%1").arg(m_serial->bytesAvailable()));
+                    break;
+                }
+                QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+            }
+        }
+    }
+    else            //阻塞一直等
+    {
+        while(m_serial->bytesAvailable() < len)
+            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        result = m_serial->read(len);
+    }
+    return result;
 }
 
 QByteArray MainWindow::serialReadAll()

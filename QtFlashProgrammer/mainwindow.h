@@ -80,6 +80,8 @@ private:
     SettingsDialog *settingsDialog;     //串口设置窗口
     QSerialPort *m_serial;              //串口对象
     ToolDialog *toolDialog;
+    bool timeoutEnabled = true;                //串口超时等待设置
+    qint32 timeoutMs = 100;                   //串口超时等待时间
 
 
     QString curFile;
