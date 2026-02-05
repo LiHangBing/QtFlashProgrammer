@@ -289,6 +289,7 @@ void MainWindow::openSerialPort()
     m_serial->setFlowControl(p.flowControl);
     timeoutEnabled = p.timeoutEnabled;
     timeoutMs = p.timeoutMs;
+    m_bytesToWrite = 0;                     //上一次流程可能会卡死，部分变量需要初始化
     if (m_serial->open(QIODevice::ReadWrite)) {
         ui->action_Connect->setEnabled(false);
         ui->action_Disconnect->setEnabled(true);
@@ -348,13 +349,43 @@ void MainWindow::serialClean()                                 //串口清除缓
 {
     m_serial->clear();
     m_serial->clearError();
+    m_bytesToWrite = 0;
 }
 
 
 void MainWindow::serialWrite(const QByteArray &data)            //串口写入（阻塞执行）
 {
-    while(m_bytesToWrite > 0)               //等待串口发送完前面的数据
-        QCoreApplication::processEvents(QEventLoop::AllEvents);
+    if (!m_serial->isOpen()) {
+        QMessageBox::critical(this, tr("Error"), tr("Serial port disconnected"));
+        return;
+    }
+
+    if(timeoutEnabled)
+    {
+        QElapsedTimer timer;
+        timer.start();
+        qint64 lastBytesToWrite = m_bytesToWrite;
+        
+        while(m_bytesToWrite > 0) {
+            if (m_bytesToWrite < lastBytesToWrite) {
+                lastBytesToWrite = m_bytesToWrite;
+                timer.restart();
+            }
+            
+            if (timer.elapsed() >= timeoutMs) {
+                QMessageBox::critical(this, tr("Error"), tr("Serial write timeout, bytesToWrite:%1").arg(m_bytesToWrite));
+                return;
+            }
+            
+            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        }
+    }
+    else
+    {
+        while(m_bytesToWrite > 0)               //等待串口发送完前面的数据
+            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    }
+    
     const qint64 written = m_serial->write(data);
     if (written == data.size()) {
         m_bytesToWrite += written;
