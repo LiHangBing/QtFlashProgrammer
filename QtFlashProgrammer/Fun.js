@@ -6,14 +6,18 @@ const FUNC_SPI_READ = 11;
 const FUNC_SPI_WRITE = 12;
 const FUNC_SPI_TST = 13;
 
-const FUNC_I2C_INIT   =   20
-const FUNC_I2C_DEINIT =   21
-const FUNC_I2C_READ   =   22
-const FUNC_I2C_WRITE  =   23
-const FUNC_I2C_START  =   24
-const FUNC_I2C_STOP   =   25
-const FUNC_I2C_TST    =   28
+const FUNC_I2C_INIT   =   20;
+const FUNC_I2C_DEINIT =   21;
+const FUNC_I2C_READ   =   22;
+const FUNC_I2C_WRITE  =   23;
+const FUNC_I2C_START  =   24;
+const FUNC_I2C_STOP   =   25;
+const FUNC_I2C_TST    =   28;
 
+const FUNC_GPIO_INIT  	=	30;
+const FUNC_GPIO_DEINIT	=	31;
+const FUNC_GPIO_READ  	=	32;
+const FUNC_GPIO_WRITE 	=	33;
 
 const BUFFSIZE = 64;
 
@@ -230,4 +234,45 @@ function i2c_cmd_tst()					//测试设备是否在线
 		return 0;
 	else
 		return datR[0];
+}
+
+//GPIO functions
+function gpio_cmd_init(in_out, up_down)				//初始化GPIO
+{
+	mainObject.serialWrite(FUNC_GPIO_INIT);
+	mainObject.serialWrite(in_out);
+	mainObject.serialWrite(up_down);
+	
+	let datR = mainObject.serialRead(1);
+	if(datR[0] == FUNC_GPIO_INIT)
+		return 0;
+	else
+		return datR[0];
+}
+function gpio_cmd_deinit()
+{
+	mainObject.serialWrite(FUNC_GPIO_DEINIT);
+	let datR = mainObject.serialRead(1);
+	if(datR[0] == FUNC_GPIO_DEINIT)
+		return 0;
+	else return datR[0];
+}
+function gpio_cmd_read()					//IO读
+{
+	mainObject.serialWrite(FUNC_GPIO_READ);
+	let datR = mainObject.serialRead(2);
+	if(datR[1] == FUNC_GPIO_READ)
+		return datR[0];
+	else
+		return [];
+}
+function gpio_cmd_write(out)				//IO写
+{
+	mainObject.serialWrite(FUNC_GPIO_WRITE);
+	mainObject.serialWrite(out);
+	
+	let datR = mainObject.serialRead(1);
+	if(datR[0] == FUNC_GPIO_WRITE)
+		return 0;
+	else return datR[0];
 }

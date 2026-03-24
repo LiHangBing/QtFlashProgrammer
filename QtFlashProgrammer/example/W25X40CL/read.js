@@ -2,9 +2,14 @@
 
 const buffSize = 64;			//缓冲区大小
 const add_start = 0;			//读取的起始地址
-const read_size = 2968719;	//读取大小
+const read_size = 2*1024;	//读取大小
 
 mainObject.serialClean();
+
+//GPIO初始化并拉高，用于辅助引脚HOLD、WP的控制,甚至驱动MOS上电flash
+gpio_cmd_init(0x00, 0xff);			//所有IO输出，并设置上拉
+gpio_cmd_write(0xff);				//所有IO拉高
+
 
 //初始化SPI引脚的状态并设置SPI频率
 if (spi_cmd_init(8) != 0)

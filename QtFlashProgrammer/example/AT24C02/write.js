@@ -13,7 +13,7 @@ if(pos + write_size > mainObject.getEditLen() || pageSize == 0)
 
 mainObject.serialClean();
 //初始化、100K
-if (i2c_cmd_init(0) != 0)
+if (i2c_cmd_init(2) != 0)
 	throw new Error("spi_cmd_init FAIL");
 
 
@@ -50,6 +50,7 @@ if(bytesBefore > 0)
 for(i = 0; i < pageSum; i++)
 {
 	err = i2c_cmd_start();
+	if(err != 0) throw new Error("i2c_cmd_start," + "code:" + err.toString());
 	err += i2c_cmd_write([0xa0, addr]);	//最低位为0，写，+数据地址
 	if(err != 0) throw new Error("i2c_cmd_write([0xa0, addr])," + "code:" + err.toString());
 	
@@ -77,5 +78,7 @@ if(bytesAfter > 0)
 	addr += bytesAfter;
 	mainObject.Delay_MSec(5);			//页写周期最大5ms
 }
+
+i2c_cmd_stop();
 
 mainObject.statusShow("write finished");

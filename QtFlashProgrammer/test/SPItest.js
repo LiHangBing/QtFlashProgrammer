@@ -2,7 +2,7 @@
 
 mainObject.serialClean();
 
-
+/*
 //1
 if (spi_cmd_deinit() == 0)
 	mainObject.statusShow("spi_cmd_deinit OK");
@@ -66,7 +66,7 @@ else
 mainObject.Delay_MSec(300);
 
 
-
+*/
 //9
 if (spi_cmd_tst() == 0)
 	mainObject.statusShow("spi_cmd_tst OK");

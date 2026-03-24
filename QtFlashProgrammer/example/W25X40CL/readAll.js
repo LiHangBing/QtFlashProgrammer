@@ -1,10 +1,15 @@
 
-const _IC_SIZE = 16*1024*1024;	//芯片容量
+const _IC_SIZE = 512*1024;	//芯片容量
 const SectorSize = 4096; 		//扇区大小
 const buffSize = 64;			//缓冲区大小
 
 
 mainObject.serialClean();
+
+//GPIO初始化并拉高，用于辅助引脚HOLD、WP的控制,甚至驱动MOS上电flash
+gpio_cmd_init(0x00, 0xff);			//所有IO输出，并设置上拉
+gpio_cmd_write(0xff);				//所有IO拉高
+
 
 //初始化SPI引脚的状态并设置SPI频率
 if (spi_cmd_init(8) != 0)

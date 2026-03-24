@@ -12,7 +12,7 @@ let buff_sum = parseInt(read_size/buffSize);
 let addr = add_start;
 mainObject.statusShow("read begin at:" + add_start.toString());
 
-err += i2c_cmd_init(0)
+err += i2c_cmd_init(2)
 err += i2c_cmd_start()
 if(err != 0)
 {
@@ -30,22 +30,31 @@ if(err != 0)
 
 
 err += i2c_cmd_start()				//restart
-err += i2c_cmd_write([0xa1])				//最低位为1，读
 if(err != 0)
 {
 	mainObject.statusShow("read FAIL at restart," + "code:" + err.toString());
 	throw new Error("read FAIL at restart," + "code:" + err.toString());
 }
 
+err += i2c_cmd_write([0xa1])				//最低位为1，读
+if(err != 0)
+{
+	mainObject.statusShow("read FAIL at i2c_cmd_write," + "code:" + err.toString());
+	throw new Error("read FAIL at i2c_cmd_write," + "code:" + err.toString());
+}
+
 
 for (let i = 0; i < buff_sum; i++)
 {
-	err += i2c_cmd_read_editor(i*buffSize, buffSize, 0);			//读 buffSize 字节，并最后ACK
+	//if(i != buff_sum - 1)			//要求就算最后一字节不NAK，仍然能可靠运行
+		err += i2c_cmd_read_editor(i*buffSize, buffSize, 0);			//读 buffSize 字节，并最后ACK
+	//else
+	//	err += i2c_cmd_read_editor(i*buffSize, buffSize, 1);			//读 buffSize 字节，并最后NAK
 	if(err != 0)
 	{
 		mainObject.statusShow("read FAIL at i2c_cmd_read_editor," + "code:" + err.toString());
 		throw new Error("read FAIL at i2c_cmd_read_editor," + "code:" + err.toString());
-	}
+	}	
 }
 
 
