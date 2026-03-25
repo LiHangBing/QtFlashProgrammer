@@ -52,7 +52,7 @@ Open QtFlashProgrammer.pro with QT creater(version 6.x above)
 
 - [ ] Multithreading(current speed is low because of gui process. And it read w25q128 cost about 20 minutes at maximum baud rate)
 
-- [ ] error and timeout process.
+- [x] error and timeout process. 
 
 # Reference
 
