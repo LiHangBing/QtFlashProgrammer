@@ -18,8 +18,11 @@ A simple tool whitch can control device with SPI or IIC by serial port to progra
 
 # Device supported
 
-my device: [LiHangBing/arduinoFlashPro: program or burn flash like w25qxx by arduino with serial connection. (github.com)](https://github.com/LiHangBing/arduinoFlashPro)
- [LiHangBing/arduinoFlashPro: program or burn flash like w25qxx by arduino with serial connection. (github.com)](https://github.com/LiHangBing/STM8FlashPro)
+my device: 
+
+[LiHangBing/arduinoFlashPro: program or burn flash like w25qxx by arduino with serial connection. (github.com)](https://github.com/LiHangBing/arduinoFlashPro)
+
+[LiHangBing/arduinoFlashPro: program or burn flash like w25qxx by arduino with serial connection. (github.com)](https://github.com/LiHangBing/STM8FlashPro)
 
 
 read source code to create your device.
